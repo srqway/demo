@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,16 +17,17 @@ import javax.persistence.Table;
 public class GrossDomesticProductCurrentPricesEntity extends BaseEntity {
 	@EmbeddedId
 	private GrossDomesticProductCurrentPricesId id;
-	private BigDecimal data;
+	@Column(nullable = false)
+	private BigDecimal value;
 
 	public GrossDomesticProductCurrentPricesEntity() {
 	}
 
 	public GrossDomesticProductCurrentPricesEntity(Date createdDt, String createdBy, Date updatedDt, String updatedBy,
-			GrossDomesticProductCurrentPricesId id, BigDecimal data) {
+			GrossDomesticProductCurrentPricesId id, BigDecimal value) {
 		super(createdDt, createdBy, updatedDt, updatedBy);
 		this.id = id;
-		this.data = data;
+		this.value = value;
 	}
 
 	public GrossDomesticProductCurrentPricesId getId() {
@@ -36,12 +38,12 @@ public class GrossDomesticProductCurrentPricesEntity extends BaseEntity {
 		this.id = id;
 	}
 
-	public BigDecimal getData() {
-		return data;
+	public BigDecimal getValue() {
+		return value;
 	}
 
-	public void setData(BigDecimal data) {
-		this.data = data;
+	public void setValue(BigDecimal value) {
+		this.value = value;
 	}
 
 	@Override
@@ -67,6 +69,11 @@ public class GrossDomesticProductCurrentPricesEntity extends BaseEntity {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "GrossDomesticProductCurrentPricesEntity [id=" + id + ", value=" + value + "]";
 	}
 
 	@Embeddable
@@ -129,6 +136,11 @@ public class GrossDomesticProductCurrentPricesEntity extends BaseEntity {
 			} else if (!quarter.equals(other.quarter))
 				return false;
 			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "GrossDomesticProductCurrentPricesId [quarter=" + quarter + ", area=" + area + "]";
 		}
 
 	}

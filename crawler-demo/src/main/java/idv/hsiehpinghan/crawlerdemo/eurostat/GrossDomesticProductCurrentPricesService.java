@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.jpademo.service;
+package idv.hsiehpinghan.crawlerdemo.eurostat;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,14 +16,24 @@ import idv.hsiehpinghan.jpademo.entity.QGrossDomesticProductCurrentPricesEntity;
 @Service
 @Repository
 @Transactional
-public class GrossDomesticProductCurrentPricesServiceMock {
+public class GrossDomesticProductCurrentPricesService {
 	private QGrossDomesticProductCurrentPricesEntity qEntity = QGrossDomesticProductCurrentPricesEntity.grossDomesticProductCurrentPricesEntity;
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void save(GrossDomesticProductCurrentPricesEntity entity) {
+	public void saveOrUpdate(GrossDomesticProductCurrentPricesEntity entity) {
 		Session session = sessionFactory.getCurrentSession();
-		session.persist(entity);
+		GrossDomesticProductCurrentPricesId id = entity.getId();
+		GrossDomesticProductCurrentPricesEntity oldEntity = getHibernateQueryFactory(session).selectFrom(qEntity)
+				.where(qEntity.id.eq(id)).fetchOne();
+		if (oldEntity == null) {
+			session.saveOrUpdate(entity);
+		} else {
+			oldEntity.setUpdatedDt(entity.getUpdatedDt());
+			oldEntity.setUpdatedBy(entity.getUpdatedBy());
+			oldEntity.setValue(entity.getValue());
+			session.update(oldEntity);
+		}
 	}
 
 	public GrossDomesticProductCurrentPricesEntity findOne(GrossDomesticProductCurrentPricesId id) {

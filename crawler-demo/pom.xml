@@ -19,6 +19,7 @@
 		<testng.version>6.9.4</testng.version>
 		<spring.version>4.1.2.RELEASE</spring.version>
 		<jsoup.version>1.8.3</jsoup.version>
+		<jpa-demo.version>1.0.0</jpa-demo.version>
 	</properties>
 
 	<dependencies>
@@ -62,6 +63,13 @@
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>${jsoup.version}</version>
+		</dependency>
+
+		<!-- jpa-demo -->
+		<dependency>
+			<groupId>idv.hsiehpinghan</groupId>
+			<artifactId>jpa-demo</artifactId>
+			<version>${jpa-demo.version}</version>
 		</dependency>
 
 	</dependencies>

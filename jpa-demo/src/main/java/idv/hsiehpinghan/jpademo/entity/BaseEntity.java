@@ -12,12 +12,12 @@ public abstract class BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_dt", nullable = false)
 	private Date createdDt;
-	@Column(name = "created_by")
+	@Column(name = "created_by", nullable = false)
 	private String createdBy;
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated_dt")
+	@Column(name = "updated_dt", nullable = false)
 	private Date updatedDt;
-	@Column(name = "updated_by")
+	@Column(name = "updated_by", nullable = false)
 	private String updatedBy;
 
 	public BaseEntity() {
@@ -61,6 +61,12 @@ public abstract class BaseEntity {
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	@Override
+	public String toString() {
+		return "BaseEntity [createdDt=" + createdDt + ", createdBy=" + createdBy + ", updatedDt=" + updatedDt
+				+ ", updatedBy=" + updatedBy + "]";
 	}
 
 }
