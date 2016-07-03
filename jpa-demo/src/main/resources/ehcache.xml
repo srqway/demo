@@ -4,15 +4,15 @@
 
 	<diskStore path="java.io.tmpdir/ehcache" />
 
-<!-- 	<defaultCache maxElementsInMemory="10000" eternal="false" -->
-<!-- 		timeToIdleSeconds="60" timeToLiveSeconds="60" overflowToDisk="true" -->
-<!-- 		diskPersistent="true"> -->
-<!-- 	</defaultCache> -->
+	<defaultCache maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="60" timeToLiveSeconds="60" overflowToDisk="true"
+		diskPersistent="true">
+	</defaultCache>
 
-<!-- 	<cache -->
-<!-- 		name="idv.hsiehpinghan.querydsljpaassistant.entity.CacheModeOneEntity" -->
-<!-- 		maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="2" -->
-<!-- 		timeToLiveSeconds="3" overflowToDisk="true" diskPersistent="true"> -->
-<!-- 	</cache> -->
+	<cache
+		name="idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity"
+		maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="2"
+		timeToLiveSeconds="3" overflowToDisk="true" diskPersistent="true">
+	</cache>
 
 </ehcache>
