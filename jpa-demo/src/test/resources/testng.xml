@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="suite" verbose="1">
+	<test name="suit">
+		<classes>
+			<class name="idv.hsiehpinghan.querydsljpaassistant.suit.TestngSuitSetting" />
+		</classes>
+	</test>
+	<test name="test">
+		<classes>
+			<!-- <class -->
+			<!-- name="idv.hsiehpinghan.querydsljpaassistant.service.BasicTypeEntityServiceTest" 
+				/> -->
+			<!-- <class -->
+			<!-- name="idv.hsiehpinghan.querydsljpaassistant.service.ManyToManyBidirectionServiceTest" 
+				/> -->
+			<!-- <class -->
+			<!-- name="idv.hsiehpinghan.querydsljpaassistant.service.CacheModeServiceTest" 
+				/> -->
+			<!-- <class -->
+			<!-- name="idv.hsiehpinghan.querydsljpaassistant.service.MixedInheritanceServiceTest" 
+				/> -->
+<!-- 			<class -->
+<!-- 				name="idv.hsiehpinghan.querydsljpaassistant.service.ServiceInheritanceServiceTest" /> -->
+		</classes>
+	</test>
+</suite>
