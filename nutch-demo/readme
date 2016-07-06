@@ -1,0 +1,6 @@
+# ant build.xml order
+clean, runtime, eclipse
+
+# run crawl
+/home/thank/git/demo/nutch-demo/runtime/local/bin/crawl /home/thank/git/demo/nutch-demo/urls test http://localhost:8983/solr/ 1
+

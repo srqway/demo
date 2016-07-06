@@ -36,4 +36,14 @@
 -.*(/[^/]+)/[^/]+\1/[^/]+\1/
 
 # accept anything else
-+.
+#+.
+
+# cnn
++^http://edition.cnn.com/
++^http://edition.cnn.com/regions
++^http://edition.cnn.com/politics
++^http://money.cnn.com/
+
+
+
+
