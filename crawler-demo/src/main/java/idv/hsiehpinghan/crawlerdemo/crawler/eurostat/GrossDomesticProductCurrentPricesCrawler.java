@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.crawlerdemo.eurostat;
+package idv.hsiehpinghan.crawlerdemo.crawler.eurostat;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import idv.hsiehpinghan.crawlerdemo.service.GrossDomesticProductCurrentPricesService;
 import idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity;
 import idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
 

@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.crawlerdemo.eurostat;
+package idv.hsiehpinghan.crawlerdemo.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

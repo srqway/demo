@@ -18,6 +18,7 @@
 		<jstl.version>1.2</jstl.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jersey.version>2.23.1</jersey.version>
+		<jpa-demo.version>1.0.0</jpa-demo.version>
 	</properties>
 
 	<dependencies>
@@ -82,6 +83,14 @@
 			<artifactId>jersey-spring3</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
+
+		<!-- jpa-demo -->
+		<dependency>
+			<groupId>idv.hsiehpinghan</groupId>
+			<artifactId>jpa-demo</artifactId>
+			<version>${jpa-demo.version}</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>jersey-demo</finalName>
