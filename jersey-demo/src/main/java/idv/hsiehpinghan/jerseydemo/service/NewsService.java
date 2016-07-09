@@ -14,10 +14,11 @@ import idv.hsiehpinghan.jerseydemo.vo.NewsVo;
 
 @Service
 public class NewsService {
+	private final Integer ROWS = 15;
 	@Autowired
 	private HttpSolrServer httpSolrServer;
 
-	public List<NewsVo> query(String term) throws SolrServerException {
+	public List<NewsVo> query(String term, Integer start) throws SolrServerException {
 		SolrQuery query = new SolrQuery();
 		if (term == null) {
 			query.setQuery("*:*");
@@ -25,6 +26,8 @@ public class NewsService {
 			query.setQuery("title:" + term + " or content:" + term);
 		}
 		query.setFields("title", "url");
+		query.setStart(start);
+		query.setRows(ROWS);
 		List<NewsDocument> docs = httpSolrServer.query(query).getBeans(NewsDocument.class);
 		List<NewsVo> vos = new ArrayList<>(docs.size());
 		for (NewsDocument doc : docs) {

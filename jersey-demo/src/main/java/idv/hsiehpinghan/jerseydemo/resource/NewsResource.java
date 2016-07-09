@@ -21,7 +21,7 @@ public class NewsResource {
 	private NewsService service;
 
 	/**
-	 * http://localhost:8080/jersey-demo/news?term=benefit
+	 * http://localhost:8080/jersey-demo/news?term=brexit&start=0
 	 * 
 	 * @param term
 	 * @return
@@ -29,8 +29,9 @@ public class NewsResource {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getFeeds(@QueryParam("term") String term) throws SolrServerException {
-		List<NewsVo> vos = service.query(term);
+	public Response getFeeds(@QueryParam("term") String term, @QueryParam("start") Integer start)
+			throws SolrServerException {
+		List<NewsVo> vos = service.query(term, start);
 		if (vos.size() <= 0) {
 			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
 		} else {
