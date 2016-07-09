@@ -1,6 +1,6 @@
 build/
 runtime/
+bin/
 logs/
 docs/
-bin/
 hadoop.log*
