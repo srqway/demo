@@ -3,8 +3,4 @@ runtime/
 logs/
 docs/
 bin/
-src/test/
-src/plugin/*/src/test
-src/testresources/*
 hadoop.log*
-src/plugin/*/sample/*
