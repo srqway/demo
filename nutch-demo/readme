@@ -1,6 +1,17 @@
 # ant build.xml order
 clean, runtime, eclipse
 
+# copy schema.xml to solr
+mv /opt/solr-4.10.3/example/solr/collection1/data /opt/solr-4.10.3/example/solr/collection1/data_origin
+mv /opt/solr-4.10.3/example/solr/collection1/conf/schema.xml /opt/solr-4.10.3/example/solr/collection1/conf/schema.xml_origin
+cp /home/hsiehpinghan/git/demo/nutch-demo/conf/schema.xml /opt/solr-4.10.3/example/solr/collection1/conf/
+
+# start solr
+/opt/solr-4.10.3/bin/solr start
+
 # run crawl
-/home/thank/git/demo/nutch-demo/runtime/local/bin/crawl /home/thank/git/demo/nutch-demo/urls test http://localhost:8983/solr/ 1
+/home/hsiehpinghan/git/demo/nutch-demo/runtime/local/bin/crawl /home/hsiehpinghan/git/demo/nutch-demo/urls test http://localhost:8983/solr/ 1
+
+# check solr result
+http://localhost:8983/solr/#/collection1/query
 

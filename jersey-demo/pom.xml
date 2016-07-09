@@ -18,6 +18,7 @@
 		<jstl.version>1.2</jstl.version>
 		<servlet.version>3.0.1</servlet.version>
 		<jersey.version>2.23.1</jersey.version>
+		<solr-solrj.version>4.10.3</solr-solrj.version>
 		<jpa-demo.version>1.0.0</jpa-demo.version>
 	</properties>
 
@@ -98,6 +99,13 @@
 			<artifactId>jersey-test-framework-core</artifactId>
 			<version>${jersey.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- solr-solrj -->
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>${solr-solrj.version}</version>
 		</dependency>
 
 		<!-- jpa-demo -->
