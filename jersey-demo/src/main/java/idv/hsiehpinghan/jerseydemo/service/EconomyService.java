@@ -13,33 +13,58 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
+import idv.hsiehpinghan.jerseydemo.vo.ExchangeRateVo;
 import idv.hsiehpinghan.jerseydemo.vo.GdpVo;
+import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity;
+import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity.EuroNationalCurrencyExchangeRatesId;
 import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity;
 import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
+import idv.hsiehpinghan.jpademo.entity.eurostat.QEuroNationalCurrencyExchangeRatesEntity;
 import idv.hsiehpinghan.jpademo.entity.eurostat.QGrossDomesticProductCurrentPricesEntity;
 
 @Service
 @Repository
 @Transactional
 public class EconomyService {
-	private QGrossDomesticProductCurrentPricesEntity qEntity = QGrossDomesticProductCurrentPricesEntity.grossDomesticProductCurrentPricesEntity;
+	private QGrossDomesticProductCurrentPricesEntity qGrossDomesticProductCurrentPricesEntity = QGrossDomesticProductCurrentPricesEntity.grossDomesticProductCurrentPricesEntity;
+	private QEuroNationalCurrencyExchangeRatesEntity qEuroNationalCurrencyExchangeRatesEntity = QEuroNationalCurrencyExchangeRatesEntity.euroNationalCurrencyExchangeRatesEntity;
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	public GdpVo findOne(GrossDomesticProductCurrentPricesId id) {
 		Session session = sessionFactory.getCurrentSession();
-		GrossDomesticProductCurrentPricesEntity entity = getHibernateQueryFactory(session).selectFrom(qEntity)
-				.where(qEntity.id.eq(id)).fetchOne();
+		GrossDomesticProductCurrentPricesEntity entity = getHibernateQueryFactory(session)
+				.selectFrom(qGrossDomesticProductCurrentPricesEntity)
+				.where(qGrossDomesticProductCurrentPricesEntity.id.eq(id)).fetchOne();
 		return convertToGdpVo(entity);
 	}
 
-	public List<GdpVo> findAll() {
+	public List<GdpVo> findAllGdp() {
 		Session session = sessionFactory.getCurrentSession();
-		List<GrossDomesticProductCurrentPricesEntity> entities = getHibernateQueryFactory(session).selectFrom(qEntity)
-				.fetch();
+		List<GrossDomesticProductCurrentPricesEntity> entities = getHibernateQueryFactory(session)
+				.selectFrom(qGrossDomesticProductCurrentPricesEntity).fetch();
 		List<GdpVo> vos = new ArrayList<>(entities.size());
 		for (GrossDomesticProductCurrentPricesEntity entity : entities) {
 			vos.add(convertToGdpVo(entity));
+		}
+		return vos;
+	}
+
+	public ExchangeRateVo findOne(EuroNationalCurrencyExchangeRatesId id) {
+		Session session = sessionFactory.getCurrentSession();
+		EuroNationalCurrencyExchangeRatesEntity entity = getHibernateQueryFactory(session)
+				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity)
+				.where(qEuroNationalCurrencyExchangeRatesEntity.id.eq(id)).fetchOne();
+		return convertToExchangeRateVo(entity);
+	}
+
+	public List<ExchangeRateVo> findAllExchangeRate() {
+		Session session = sessionFactory.getCurrentSession();
+		List<EuroNationalCurrencyExchangeRatesEntity> entities = getHibernateQueryFactory(session)
+				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity).fetch();
+		List<ExchangeRateVo> vos = new ArrayList<>(entities.size());
+		for (EuroNationalCurrencyExchangeRatesEntity entity : entities) {
+			vos.add(convertToExchangeRateVo(entity));
 		}
 		return vos;
 	}
@@ -53,5 +78,12 @@ public class EconomyService {
 		String area = entity.getId().getArea();
 		BigDecimal value = entity.getValue();
 		return new GdpVo(quarter, area, value);
+	}
+
+	private ExchangeRateVo convertToExchangeRateVo(EuroNationalCurrencyExchangeRatesEntity entity) {
+		String yearMonth = entity.getId().getYearMonth();
+		String currency = entity.getId().getCurrency();
+		BigDecimal value = entity.getValue();
+		return new ExchangeRateVo(yearMonth, currency, value);
 	}
 }

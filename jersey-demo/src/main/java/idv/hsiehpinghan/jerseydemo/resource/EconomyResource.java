@@ -12,7 +12,9 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import idv.hsiehpinghan.jerseydemo.service.EconomyService;
+import idv.hsiehpinghan.jerseydemo.vo.ExchangeRateVo;
 import idv.hsiehpinghan.jerseydemo.vo.GdpVo;
+import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity.EuroNationalCurrencyExchangeRatesId;
 import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
 
 @Path("economy")
@@ -49,9 +51,47 @@ public class EconomyResource {
 	@Path("gdp")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllGdp() {
-		List<GdpVo> entities = service.findAll();
+		List<GdpVo> entities = service.findAllGdp();
 		if (entities.size() <= 0) {
-			return Response.status(Response.Status.NOT_FOUND).entity("No economy data !!!").build();
+			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
+		} else {
+			return Response.status(Response.Status.OK).entity(entities).build();
+		}
+	}
+
+	/**
+	 * http://localhost:8080/jersey-demo/economy/exchange_rate/2016M05/Bulgarian%20lev
+	 * 
+	 * @param yearMonth
+	 * @param currency
+	 * @return
+	 */
+	@GET
+	@Path("exchange_rate/{yearMonth : \\d{4}M\\d{2}}/{currency: [a-zA-Z0-9%]+}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getExchangeRateByYearMonthAndCurrency(@PathParam("yearMonth") String yearMonth,
+			@PathParam("currency") String currency) {
+		EuroNationalCurrencyExchangeRatesId id = new EuroNationalCurrencyExchangeRatesId(yearMonth, currency);
+		ExchangeRateVo vo = service.findOne(id);
+		if (vo == null) {
+			return Response.status(Response.Status.NOT_FOUND).entity("Not found !!!").build();
+		} else {
+			return Response.status(Response.Status.OK).entity(vo).build();
+		}
+	}
+
+	/**
+	 * http://localhost:8080/jersey-demo/economy/exchange_rate
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path("exchange_rate")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllExchangeRate() {
+		List<ExchangeRateVo> entities = service.findAllExchangeRate();
+		if (entities.size() <= 0) {
+			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
 		} else {
 			return Response.status(Response.Status.OK).entity(entities).build();
 		}

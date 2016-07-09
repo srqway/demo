@@ -65,7 +65,7 @@ public class EuroNationalCurrencyExchangeRatesCrawler {
 		for (int r = 0, rSize = data.size(); r < rSize; ++r) {
 			List<String> row = data.get(r);
 			for (int c = 0, cSize = row.size(); c < cSize; ++c) {
-				String yearMonth = yearMonths.get(c);
+				String yearMonth = yearMonths.get(c).substring(0, 7);
 				String currency = currencies.get(r);
 				BigDecimal value = null;
 				try {

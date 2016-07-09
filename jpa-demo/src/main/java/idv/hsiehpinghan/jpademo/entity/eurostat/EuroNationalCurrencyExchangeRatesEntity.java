@@ -86,9 +86,9 @@ public class EuroNationalCurrencyExchangeRatesEntity extends BaseEntity {
 	@Embeddable
 	public static class EuroNationalCurrencyExchangeRatesId implements Serializable {
 		private static final long serialVersionUID = 1L;
+		private String currency;
 		@Column(name = "year_month")
 		private String yearMonth;
-		private String currency;
 
 		public EuroNationalCurrencyExchangeRatesId() {
 			super();
