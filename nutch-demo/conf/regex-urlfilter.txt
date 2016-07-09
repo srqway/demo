@@ -39,11 +39,10 @@
 #+.
 
 # cnn
-+^http://edition.cnn.com/
 +^http://edition.cnn.com/regions
 +^http://edition.cnn.com/politics
-+^http://money.cnn.com/
++^http://money.cnn.com
 
-
-
-
+# bbc
++^http://www.bbc.com/news
++^http://www.bbc.com/capital
