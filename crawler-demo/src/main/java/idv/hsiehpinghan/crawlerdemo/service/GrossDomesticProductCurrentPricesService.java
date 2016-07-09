@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
-import idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity;
-import idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
-import idv.hsiehpinghan.jpademo.entity.QGrossDomesticProductCurrentPricesEntity;
+import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity;
+import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
+import idv.hsiehpinghan.jpademo.entity.eurostat.QGrossDomesticProductCurrentPricesEntity;
 
 @Service
 @Repository

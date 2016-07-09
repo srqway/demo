@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.jpademo.entity;
+package idv.hsiehpinghan.jpademo.entity.eurostat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import idv.hsiehpinghan.jpademo.configuration.SpringConfiguration;
-import idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
+import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
 import idv.hsiehpinghan.jpademo.service.GrossDomesticProductCurrentPricesServiceMock;
 
 @RunWith(SpringJUnit4ClassRunner.class)

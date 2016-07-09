@@ -1,4 +1,4 @@
-package idv.hsiehpinghan.jpademo.entity;
+package idv.hsiehpinghan.jpademo.entity.eurostat;
 
 import java.util.Date;
 

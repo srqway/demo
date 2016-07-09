@@ -19,8 +19,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import idv.hsiehpinghan.crawlerdemo.service.GrossDomesticProductCurrentPricesService;
-import idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity;
-import idv.hsiehpinghan.jpademo.entity.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
+import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity;
+import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
 
 /**
  * crawler for EUROSTAT GDP :
@@ -62,7 +62,7 @@ public class GrossDomesticProductCurrentPricesCrawler {
 		for (int r = 0, rSize = data.size(); r < rSize; ++r) {
 			List<String> row = data.get(r);
 			for (int c = 0, cSize = row.size(); c < cSize; ++c) {
-				String quarter = quarters.get(c);
+				String quarter = quarters.get(c).substring(0, 6);
 				String area = areas.get(r);
 				BigDecimal value = null;
 				try {
