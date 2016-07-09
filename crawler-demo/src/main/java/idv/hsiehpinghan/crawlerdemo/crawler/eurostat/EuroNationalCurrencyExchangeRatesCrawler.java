@@ -19,26 +19,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import idv.hsiehpinghan.crawlerdemo.service.GrossDomesticProductCurrentPricesService;
-import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity;
-import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
+import idv.hsiehpinghan.crawlerdemo.service.EuroNationalCurrencyExchangeRatesService;
+import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity;
+import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity.EuroNationalCurrencyExchangeRatesId;
 
 /**
- * crawler for EUROSTAT GDP :
+ * crawler for EUROSTAT currency excahnge rates :
  * http://ec.europa.eu/eurostat/tgm/table.do?tab=table&init=1&language=en&pcode=
- * teina010&plugin=1
+ * teimf200&plugin=1
  * 
  * @author hsiehpinghan
  *
  */
 @Component
-public class GrossDomesticProductCurrentPricesCrawler {
+public class EuroNationalCurrencyExchangeRatesCrawler {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	private final NumberFormat FORMATTER = NumberFormat.getNumberInstance();
-	private final String URL = "http://ec.europa.eu/eurostat/tgm/table.do?tab=table&init=1&language=en&pcode=teina010&plugin=1";
+	private final String URL = "http://ec.europa.eu/eurostat/tgm/table.do?tab=table&init=1&language=en&pcode=teimf200&plugin=1";
 	private final String CLASS_NAME = this.getClass().getSimpleName();
 	@Autowired
-	private GrossDomesticProductCurrentPricesService service;
+	private EuroNationalCurrencyExchangeRatesService service;
 
 	/**
 	 * crawling time interval : 1 day.
@@ -55,18 +55,18 @@ public class GrossDomesticProductCurrentPricesCrawler {
 			return;
 		}
 		LOGGER.info("connected to URL(" + URL + ") success.");
-		List<String> quarters = getQuarters(doc);
-		List<String> areas = getAreas(doc);
+		List<String> yearMonths = getYearMonths(doc);
+		List<String> currencies = getCurrencies(doc);
 		List<List<String>> data = getData(doc);
 		Date now = new Date();
 		int entityAmt = 0;
-		Collection<GrossDomesticProductCurrentPricesEntity> entities = new ArrayList<GrossDomesticProductCurrentPricesEntity>(
-				quarters.size() * areas.size());
+		Collection<EuroNationalCurrencyExchangeRatesEntity> entities = new ArrayList<EuroNationalCurrencyExchangeRatesEntity>(
+				yearMonths.size() * currencies.size());
 		for (int r = 0, rSize = data.size(); r < rSize; ++r) {
 			List<String> row = data.get(r);
 			for (int c = 0, cSize = row.size(); c < cSize; ++c) {
-				String quarter = quarters.get(c).substring(0, 6);
-				String area = areas.get(r);
+				String yearMonth = yearMonths.get(c);
+				String currency = currencies.get(r);
 				BigDecimal value = null;
 				try {
 					value = getValue(row.get(c));
@@ -74,8 +74,8 @@ public class GrossDomesticProductCurrentPricesCrawler {
 					LOGGER.error("parsing value(" + row.get(c) + ") fail !!!", e);
 					continue;
 				}
-				GrossDomesticProductCurrentPricesId id = new GrossDomesticProductCurrentPricesId(quarter, area);
-				GrossDomesticProductCurrentPricesEntity entity = new GrossDomesticProductCurrentPricesEntity(now,
+				EuroNationalCurrencyExchangeRatesId id = new EuroNationalCurrencyExchangeRatesId(yearMonth, currency);
+				EuroNationalCurrencyExchangeRatesEntity entity = new EuroNationalCurrencyExchangeRatesEntity(now,
 						CLASS_NAME, now, CLASS_NAME, id, value);
 				entities.add(entity);
 				LOGGER.info("entity(" + entity + ") add to entities.");
@@ -87,33 +87,27 @@ public class GrossDomesticProductCurrentPricesCrawler {
 	}
 
 	private BigDecimal getValue(String value) throws ParseException {
-		String v = null;
-		if (value.endsWith("p")) {
-			v = value.substring(0, value.length() - 1);
-		} else {
-			v = value;
-		}
-		return new BigDecimal(FORMATTER.parse(v).toString());
+		return new BigDecimal(FORMATTER.parse(value).toString());
 	}
 
-	private List<String> getQuarters(Document doc) {
+	private List<String> getYearMonths(Document doc) {
 		Element headTable = doc.getElementById("headtable");
-		Elements quarterThs = headTable.getElementsByTag("th");
-		List<String> quarters = new ArrayList<String>(quarterThs.size());
-		for (Element quarterTh : quarterThs) {
-			quarters.add(quarterTh.text());
+		Elements yearMonthThs = headTable.getElementsByTag("th");
+		List<String> yearMonths = new ArrayList<String>(yearMonthThs.size());
+		for (Element yearMonthTh : yearMonthThs) {
+			yearMonths.add(yearMonthTh.text());
 		}
-		return quarters;
+		return yearMonths;
 	}
 
-	private List<String> getAreas(Document doc) {
+	private List<String> getCurrencies(Document doc) {
 		Element headTable = doc.getElementById("fixtable");
-		Elements areaThs = headTable.getElementsByTag("th");
-		List<String> areas = new ArrayList<String>(areaThs.size());
-		for (Element areaTh : areaThs) {
-			areas.add(areaTh.text());
+		Elements currencyThs = headTable.getElementsByTag("th");
+		List<String> currencies = new ArrayList<String>(currencyThs.size());
+		for (Element currencyTh : currencyThs) {
+			currencies.add(currencyTh.text());
 		}
-		return areas;
+		return currencies;
 	}
 
 	private List<List<String>> getData(Document doc) {

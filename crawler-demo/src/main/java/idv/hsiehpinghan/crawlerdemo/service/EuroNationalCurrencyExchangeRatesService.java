@@ -12,22 +12,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
-import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity;
-import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
-import idv.hsiehpinghan.jpademo.entity.eurostat.QGrossDomesticProductCurrentPricesEntity;
+import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity;
+import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity.EuroNationalCurrencyExchangeRatesId;
+import idv.hsiehpinghan.jpademo.entity.eurostat.QEuroNationalCurrencyExchangeRatesEntity;
 
 @Service
 @Repository
 @Transactional
-public class GrossDomesticProductCurrentPricesService {
-	private QGrossDomesticProductCurrentPricesEntity qEntity = QGrossDomesticProductCurrentPricesEntity.grossDomesticProductCurrentPricesEntity;
+public class EuroNationalCurrencyExchangeRatesService {
+	private QEuroNationalCurrencyExchangeRatesEntity qEntity = QEuroNationalCurrencyExchangeRatesEntity.euroNationalCurrencyExchangeRatesEntity;
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void saveOrUpdate(GrossDomesticProductCurrentPricesEntity entity) {
+	public void saveOrUpdate(EuroNationalCurrencyExchangeRatesEntity entity) {
 		Session session = sessionFactory.getCurrentSession();
-		GrossDomesticProductCurrentPricesId id = entity.getId();
-		GrossDomesticProductCurrentPricesEntity oldEntity = getHibernateQueryFactory(session).selectFrom(qEntity)
+		EuroNationalCurrencyExchangeRatesId id = entity.getId();
+		EuroNationalCurrencyExchangeRatesEntity oldEntity = getHibernateQueryFactory(session).selectFrom(qEntity)
 				.where(qEntity.id.eq(id)).fetchOne();
 		if (oldEntity == null) {
 			session.persist(entity);
@@ -35,15 +35,15 @@ public class GrossDomesticProductCurrentPricesService {
 			oldEntity.setUpdatedDt(entity.getUpdatedDt());
 			oldEntity.setUpdatedBy(entity.getUpdatedBy());
 			oldEntity.setValue(entity.getValue());
-			session.persist(oldEntity);
+			session.update(oldEntity);
 		}
 	}
 
-	public void saveOrUpdate(Collection<GrossDomesticProductCurrentPricesEntity> entities) {
+	public void saveOrUpdate(Collection<EuroNationalCurrencyExchangeRatesEntity> entities) {
 		Session session = sessionFactory.getCurrentSession();
-		for (GrossDomesticProductCurrentPricesEntity entity : entities) {
-			GrossDomesticProductCurrentPricesId id = entity.getId();
-			GrossDomesticProductCurrentPricesEntity oldEntity = getHibernateQueryFactory(session).selectFrom(qEntity)
+		for (EuroNationalCurrencyExchangeRatesEntity entity : entities) {
+			EuroNationalCurrencyExchangeRatesId id = entity.getId();
+			EuroNationalCurrencyExchangeRatesEntity oldEntity = getHibernateQueryFactory(session).selectFrom(qEntity)
 					.where(qEntity.id.eq(id)).fetchOne();
 			if (oldEntity == null) {
 				session.persist(entity);
@@ -57,7 +57,7 @@ public class GrossDomesticProductCurrentPricesService {
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public GrossDomesticProductCurrentPricesEntity findOne(GrossDomesticProductCurrentPricesId id) {
+	public EuroNationalCurrencyExchangeRatesEntity findOne(EuroNationalCurrencyExchangeRatesId id) {
 		Session session = sessionFactory.getCurrentSession();
 		return getHibernateQueryFactory(session).selectFrom(qEntity).where(qEntity.id.eq(id)).fetchOne();
 
