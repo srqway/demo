@@ -31,15 +31,7 @@ public class EconomyService {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public GdpVo findOne(GrossDomesticProductCurrentPricesId id) {
-		Session session = sessionFactory.getCurrentSession();
-		GrossDomesticProductCurrentPricesEntity entity = getHibernateQueryFactory(session)
-				.selectFrom(qGrossDomesticProductCurrentPricesEntity)
-				.where(qGrossDomesticProductCurrentPricesEntity.id.eq(id)).fetchOne();
-		return convertToGdpVo(entity);
-	}
-
-	public List<GdpVo> findAllGdp() {
+	public List<GdpVo> getAllGdps() {
 		Session session = sessionFactory.getCurrentSession();
 		List<GrossDomesticProductCurrentPricesEntity> entities = getHibernateQueryFactory(session)
 				.selectFrom(qGrossDomesticProductCurrentPricesEntity).fetch();
@@ -50,15 +42,27 @@ public class EconomyService {
 		return vos;
 	}
 
-	public ExchangeRateVo findOne(EuroNationalCurrencyExchangeRatesId id) {
+	public List<GdpVo> getGdpsByArea(String area) {
 		Session session = sessionFactory.getCurrentSession();
-		EuroNationalCurrencyExchangeRatesEntity entity = getHibernateQueryFactory(session)
-				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity)
-				.where(qEuroNationalCurrencyExchangeRatesEntity.id.eq(id)).fetchOne();
-		return convertToExchangeRateVo(entity);
+		List<GrossDomesticProductCurrentPricesEntity> entities = getHibernateQueryFactory(session)
+				.selectFrom(qGrossDomesticProductCurrentPricesEntity)
+				.where(qGrossDomesticProductCurrentPricesEntity.id.area.eq(area)).fetch();
+		List<GdpVo> vos = new ArrayList<>(entities.size());
+		for (GrossDomesticProductCurrentPricesEntity entity : entities) {
+			vos.add(convertToGdpVo(entity));
+		}
+		return vos;
 	}
 
-	public List<ExchangeRateVo> findAllExchangeRate() {
+	public GdpVo getGdpById(GrossDomesticProductCurrentPricesId id) {
+		Session session = sessionFactory.getCurrentSession();
+		GrossDomesticProductCurrentPricesEntity entity = getHibernateQueryFactory(session)
+				.selectFrom(qGrossDomesticProductCurrentPricesEntity)
+				.where(qGrossDomesticProductCurrentPricesEntity.id.eq(id)).fetchOne();
+		return convertToGdpVo(entity);
+	}
+
+	public List<ExchangeRateVo> getAllExchangeRates() {
 		Session session = sessionFactory.getCurrentSession();
 		List<EuroNationalCurrencyExchangeRatesEntity> entities = getHibernateQueryFactory(session)
 				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity).fetch();
@@ -67,6 +71,26 @@ public class EconomyService {
 			vos.add(convertToExchangeRateVo(entity));
 		}
 		return vos;
+	}
+
+	public List<ExchangeRateVo> getExchangeRatesByCurrency(String currency) {
+		Session session = sessionFactory.getCurrentSession();
+		List<EuroNationalCurrencyExchangeRatesEntity> entities = getHibernateQueryFactory(session)
+				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity)
+				.where(qEuroNationalCurrencyExchangeRatesEntity.id.currency.eq(currency)).fetch();
+		List<ExchangeRateVo> vos = new ArrayList<>(entities.size());
+		for (EuroNationalCurrencyExchangeRatesEntity entity : entities) {
+			vos.add(convertToExchangeRateVo(entity));
+		}
+		return vos;
+	}
+
+	public ExchangeRateVo getExchangeRateById(EuroNationalCurrencyExchangeRatesId id) {
+		Session session = sessionFactory.getCurrentSession();
+		EuroNationalCurrencyExchangeRatesEntity entity = getHibernateQueryFactory(session)
+				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity)
+				.where(qEuroNationalCurrencyExchangeRatesEntity.id.eq(id)).fetchOne();
+		return convertToExchangeRateVo(entity);
 	}
 
 	private HibernateQueryFactory getHibernateQueryFactory(Session session) {

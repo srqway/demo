@@ -23,6 +23,42 @@ public class EconomyResource {
 	private EconomyService service;
 
 	/**
+	 * http://localhost:8080/jersey-demo/economy/gdp
+	 * 
+	 * @return
+	 */
+	@GET
+	@Path("gdp")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllGdp() {
+		List<GdpVo> entities = service.getAllGdps();
+		if (entities.size() <= 0) {
+			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
+		} else {
+			return Response.status(Response.Status.OK).entity(entities).build();
+		}
+	}
+
+	/**
+	 * http://localhost:8080/jersey-demo/economy/gdp/Belgium
+	 * 
+	 * @param area
+	 * @param quarter
+	 * @return
+	 */
+	@GET
+	@Path("gdp/{area : [a-zA-Z]+}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getGdpByArea(@PathParam("area") String area) {
+		List<GdpVo> entities = service.getGdpsByArea(area);
+		if (entities.size() <= 0) {
+			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
+		} else {
+			return Response.status(Response.Status.OK).entity(entities).build();
+		}
+	}
+
+	/**
 	 * http://localhost:8080/jersey-demo/economy/gdp/Belgium/2013Q2
 	 * 
 	 * @param area
@@ -34,45 +70,7 @@ public class EconomyResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getGdpByAreaAndQuarter(@PathParam("area") String area, @PathParam("quarter") String quarter) {
 		GrossDomesticProductCurrentPricesId id = new GrossDomesticProductCurrentPricesId(quarter, area);
-		GdpVo vo = service.findOne(id);
-		if (vo == null) {
-			return Response.status(Response.Status.NOT_FOUND).entity("Not found !!!").build();
-		} else {
-			return Response.status(Response.Status.OK).entity(vo).build();
-		}
-	}
-
-	/**
-	 * http://localhost:8080/jersey-demo/economy/gdp
-	 * 
-	 * @return
-	 */
-	@GET
-	@Path("gdp")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllGdp() {
-		List<GdpVo> entities = service.findAllGdp();
-		if (entities.size() <= 0) {
-			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
-		} else {
-			return Response.status(Response.Status.OK).entity(entities).build();
-		}
-	}
-
-	/**
-	 * http://localhost:8080/jersey-demo/economy/exchange_rate/2016M05/Bulgarian%20lev
-	 * 
-	 * @param yearMonth
-	 * @param currency
-	 * @return
-	 */
-	@GET
-	@Path("exchange_rate/{yearMonth : \\d{4}M\\d{2}}/{currency: [a-zA-Z0-9%]+}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getExchangeRateByYearMonthAndCurrency(@PathParam("yearMonth") String yearMonth,
-			@PathParam("currency") String currency) {
-		EuroNationalCurrencyExchangeRatesId id = new EuroNationalCurrencyExchangeRatesId(yearMonth, currency);
-		ExchangeRateVo vo = service.findOne(id);
+		GdpVo vo = service.getGdpById(id);
 		if (vo == null) {
 			return Response.status(Response.Status.NOT_FOUND).entity("Not found !!!").build();
 		} else {
@@ -89,7 +87,7 @@ public class EconomyResource {
 	@Path("exchange_rate")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllExchangeRate() {
-		List<ExchangeRateVo> entities = service.findAllExchangeRate();
+		List<ExchangeRateVo> entities = service.getAllExchangeRates();
 		if (entities.size() <= 0) {
 			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
 		} else {
@@ -97,4 +95,44 @@ public class EconomyResource {
 		}
 	}
 
+	/**
+	 * http://localhost:8080/jersey-demo/economy/exchange_rate/Bulgarian%20lev
+	 * 
+	 * @param currency
+	 * @param yearMonth
+	 * @return
+	 */
+	@GET
+	@Path("exchange_rate/{currency: [a-zA-Z0-9%]+}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getExchangeRateByCurrency(@PathParam("currency") String currency) {
+		List<ExchangeRateVo> entities = service.getExchangeRatesByCurrency(currency);
+		if (entities.size() <= 0) {
+			return Response.status(Response.Status.NOT_FOUND).entity("No data !!!").build();
+		} else {
+			return Response.status(Response.Status.OK).entity(entities).build();
+		}
+	}
+
+	/**
+	 * http://localhost:8080/jersey-demo/economy/exchange_rate/Bulgarian%20lev/
+	 * 2016M05
+	 * 
+	 * @param currency
+	 * @param yearMonth
+	 * @return
+	 */
+	@GET
+	@Path("exchange_rate/{currency: [a-zA-Z0-9%]+}/{yearMonth : \\d{4}M\\d{2}}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getExchangeRateByCurrencyAndYearMonth(@PathParam("currency") String currency,
+			@PathParam("yearMonth") String yearMonth) {
+		EuroNationalCurrencyExchangeRatesId id = new EuroNationalCurrencyExchangeRatesId(yearMonth, currency);
+		ExchangeRateVo vo = service.getExchangeRateById(id);
+		if (vo == null) {
+			return Response.status(Response.Status.NOT_FOUND).entity("Not found !!!").build();
+		} else {
+			return Response.status(Response.Status.OK).entity(vo).build();
+		}
+	}
 }
