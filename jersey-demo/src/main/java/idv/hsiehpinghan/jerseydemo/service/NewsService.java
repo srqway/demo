@@ -14,7 +14,7 @@ import idv.hsiehpinghan.jerseydemo.vo.NewsVo;
 
 @Service
 public class NewsService {
-	private final Integer ROWS = 15;
+	private final Integer ROWS = 30;
 	@Autowired
 	private HttpSolrServer httpSolrServer;
 
