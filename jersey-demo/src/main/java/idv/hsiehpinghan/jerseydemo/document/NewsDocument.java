@@ -6,9 +6,19 @@ import org.apache.solr.client.solrj.beans.Field;
 
 public class NewsDocument {
 	@Field
+	private String id;
+	@Field
 	private List<String> title;
 	@Field
 	private String url;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public List<String> getTitle() {
 		return title;

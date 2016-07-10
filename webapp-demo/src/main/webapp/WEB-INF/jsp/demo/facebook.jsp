@@ -21,16 +21,17 @@
 <body>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			即時臉書貼文 : 
-			<div class="btn-group btn-group-xs">
-				<div class="btn-group btn-group-xs">
-					<button type="button" class="btn btn-primary dropdown-toggle"
+			<button type="button" class="btn btn-success" tabindex="-1">政要</button>
+			 : 
+			<div class="btn-group">
+				<div class="btn-group">
+					<button type="button" class="btn btn-warning dropdown-toggle"
 						data-toggle="dropdown">
 						<span id="fb_name">Barack Obama</span> <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#" class="btn btn-xs fbid" data-page-id="6815841748">Barack Obama</a></li>
-						<li><a href="#" class="btn btn-xs fbid" data-page-id="653092548048400">David Cameron</a></li>
+						<li><a href="javascript:void(0);" class="btn fbid" data-page-id="6815841748">Barack Obama</a></li>
+						<li><a href="javascript:void(0);" class="btn fbid" data-page-id="653092548048400">David Cameron</a></li>
 					</ul>
 				</div>
 			</div>

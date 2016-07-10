@@ -25,7 +25,7 @@ public class NewsService {
 		} else {
 			query.setQuery("title:" + term + " or content:" + term);
 		}
-		query.setFields("title", "url");
+		query.setFields("id", "title", "url");
 		query.setStart(start);
 		query.setRows(ROWS);
 		List<NewsDocument> docs = httpSolrServer.query(query).getBeans(NewsDocument.class);
@@ -38,8 +38,17 @@ public class NewsService {
 
 	private NewsVo convertToNewsVo(NewsDocument doc) {
 		List<String> titles = doc.getTitle();
+		String id = doc.getId();
+		String source;
+		if (id.startsWith("com.cnn")) {
+			source = "CNN";
+		} else if (id.startsWith("com.bbc")) {
+			source = "BBC";
+		} else {
+			source = "";
+		}
 		String title = titles.size() > 0 ? doc.getTitle().get(0) : null;
 		String url = doc.getUrl();
-		return new NewsVo(title, url);
+		return new NewsVo(source, title, url);
 	}
 }

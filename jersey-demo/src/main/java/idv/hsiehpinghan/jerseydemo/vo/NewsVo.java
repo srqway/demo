@@ -1,14 +1,23 @@
 package idv.hsiehpinghan.jerseydemo.vo;
 
 public class NewsVo {
-
+	private String source;
 	private String title;
 	private String url;
 
-	public NewsVo(String title, String url) {
+	public NewsVo(String source, String title, String url) {
 		super();
+		this.source = source;
 		this.title = title;
 		this.url = url;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	public String getTitle() {
@@ -29,7 +38,7 @@ public class NewsVo {
 
 	@Override
 	public String toString() {
-		return "NewsVo [title=" + title + ", url=" + url + "]";
+		return "NewsVo [source=" + source + ", title=" + title + ", url=" + url + "]";
 	}
 
 }
