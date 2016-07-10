@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import idv.hsiehpinghan.webappdemo.criteria.EconomyDataCriteria;
 import idv.hsiehpinghan.webappdemo.criteria.FacebookFeedCriteria;
 import idv.hsiehpinghan.webappdemo.criteria.NewsCriteria;
 import idv.hsiehpinghan.webappdemo.service.DataService;
@@ -23,6 +24,21 @@ public class DemoController {
 		return "demo/index";
 	}
 
+	/**
+	 * http://localhost:8081/webapp-demo/demo/economy/data?type=gdp
+	 * 
+	 * @param criteria
+	 * @return
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/economy/data", method = RequestMethod.GET, produces = { "application/json" })
+	public String economyData(EconomyDataCriteria criteria) throws IOException {
+		String type = criteria.getType();
+		String str = dataService.getEconomyData(type);
+		return str;
+	}
+	
 	@RequestMapping(value = "/facebook", method = RequestMethod.GET)
 	public String facebook() {
 		return "demo/facebook";

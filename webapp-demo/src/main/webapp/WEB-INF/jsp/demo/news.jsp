@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>facebook feed</title>
+<title>news</title>
 <link rel="stylesheet"
 	href='<c:url value="/javascript/bootstrap-3.3.2-dist/css/bootstrap.min.css"></c:url>'>
 <link rel="stylesheet"

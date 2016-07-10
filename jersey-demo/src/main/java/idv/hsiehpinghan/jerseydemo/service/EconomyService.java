@@ -13,12 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.querydsl.jpa.hibernate.HibernateQueryFactory;
 
-import idv.hsiehpinghan.jerseydemo.vo.ExchangeRateVo;
-import idv.hsiehpinghan.jerseydemo.vo.GdpVo;
+import idv.hsiehpinghan.jerseydemo.vo.EconomyVo;
 import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity;
-import idv.hsiehpinghan.jpademo.entity.eurostat.EuroNationalCurrencyExchangeRatesEntity.EuroNationalCurrencyExchangeRatesId;
 import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity;
-import idv.hsiehpinghan.jpademo.entity.eurostat.GrossDomesticProductCurrentPricesEntity.GrossDomesticProductCurrentPricesId;
 import idv.hsiehpinghan.jpademo.entity.eurostat.QEuroNationalCurrencyExchangeRatesEntity;
 import idv.hsiehpinghan.jpademo.entity.eurostat.QGrossDomesticProductCurrentPricesEntity;
 
@@ -31,83 +28,127 @@ public class EconomyService {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public List<GdpVo> getAllGdps() {
+	public EconomyVo getGdpEconomyVo() {
 		Session session = sessionFactory.getCurrentSession();
 		List<GrossDomesticProductCurrentPricesEntity> entities = getHibernateQueryFactory(session)
 				.selectFrom(qGrossDomesticProductCurrentPricesEntity).fetch();
-		List<GdpVo> vos = new ArrayList<>(entities.size());
-		for (GrossDomesticProductCurrentPricesEntity entity : entities) {
-			vos.add(convertToGdpVo(entity));
-		}
-		return vos;
+		return convertToGdpEconomyVo(entities);
 	}
 
-	public List<GdpVo> getGdpsByArea(String area) {
-		Session session = sessionFactory.getCurrentSession();
-		List<GrossDomesticProductCurrentPricesEntity> entities = getHibernateQueryFactory(session)
-				.selectFrom(qGrossDomesticProductCurrentPricesEntity)
-				.where(qGrossDomesticProductCurrentPricesEntity.id.area.eq(area)).fetch();
-		List<GdpVo> vos = new ArrayList<>(entities.size());
-		for (GrossDomesticProductCurrentPricesEntity entity : entities) {
-			vos.add(convertToGdpVo(entity));
-		}
-		return vos;
-	}
-
-	public GdpVo getGdpById(GrossDomesticProductCurrentPricesId id) {
-		Session session = sessionFactory.getCurrentSession();
-		GrossDomesticProductCurrentPricesEntity entity = getHibernateQueryFactory(session)
-				.selectFrom(qGrossDomesticProductCurrentPricesEntity)
-				.where(qGrossDomesticProductCurrentPricesEntity.id.eq(id)).fetchOne();
-		return convertToGdpVo(entity);
-	}
-
-	public List<ExchangeRateVo> getAllExchangeRates() {
+	public EconomyVo getExchangeRateEconomyVo() {
 		Session session = sessionFactory.getCurrentSession();
 		List<EuroNationalCurrencyExchangeRatesEntity> entities = getHibernateQueryFactory(session)
 				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity).fetch();
-		List<ExchangeRateVo> vos = new ArrayList<>(entities.size());
-		for (EuroNationalCurrencyExchangeRatesEntity entity : entities) {
-			vos.add(convertToExchangeRateVo(entity));
-		}
-		return vos;
-	}
-
-	public List<ExchangeRateVo> getExchangeRatesByCurrency(String currency) {
-		Session session = sessionFactory.getCurrentSession();
-		List<EuroNationalCurrencyExchangeRatesEntity> entities = getHibernateQueryFactory(session)
-				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity)
-				.where(qEuroNationalCurrencyExchangeRatesEntity.id.currency.eq(currency)).fetch();
-		List<ExchangeRateVo> vos = new ArrayList<>(entities.size());
-		for (EuroNationalCurrencyExchangeRatesEntity entity : entities) {
-			vos.add(convertToExchangeRateVo(entity));
-		}
-		return vos;
-	}
-
-	public ExchangeRateVo getExchangeRateById(EuroNationalCurrencyExchangeRatesId id) {
-		Session session = sessionFactory.getCurrentSession();
-		EuroNationalCurrencyExchangeRatesEntity entity = getHibernateQueryFactory(session)
-				.selectFrom(qEuroNationalCurrencyExchangeRatesEntity)
-				.where(qEuroNationalCurrencyExchangeRatesEntity.id.eq(id)).fetchOne();
-		return convertToExchangeRateVo(entity);
+		return convertToExchangeRateEconomyVo(entities);
 	}
 
 	private HibernateQueryFactory getHibernateQueryFactory(Session session) {
 		return new HibernateQueryFactory(session);
 	}
 
-	private GdpVo convertToGdpVo(GrossDomesticProductCurrentPricesEntity entity) {
-		String quarter = entity.getId().getQuarter();
-		String area = entity.getId().getArea();
-		BigDecimal value = entity.getValue();
-		return new GdpVo(quarter, area, value);
+	private EconomyVo convertToGdpEconomyVo(List<GrossDomesticProductCurrentPricesEntity> entities) {
+		List<String> legends = getGdpLegends(entities);
+		List<String> xAxises = getGdpXAxises(entities);
+		List<List<BigDecimal>> data = getGdpData(entities);
+		return new EconomyVo(legends, xAxises, data);
 	}
 
-	private ExchangeRateVo convertToExchangeRateVo(EuroNationalCurrencyExchangeRatesEntity entity) {
-		String yearMonth = entity.getId().getYearMonth();
-		String currency = entity.getId().getCurrency();
-		BigDecimal value = entity.getValue();
-		return new ExchangeRateVo(yearMonth, currency, value);
+	private List<String> getGdpLegends(List<GrossDomesticProductCurrentPricesEntity> entities) {
+		List<String> legends = new ArrayList<>();
+		String oldArea = entities.get(0).getId().getArea();
+		legends.add(oldArea);
+		String newArea = null;
+		for(GrossDomesticProductCurrentPricesEntity entity : entities) {
+			newArea = entity.getId().getArea();
+			if(newArea.equals(oldArea) == false) {
+				legends.add(newArea);
+				oldArea = newArea;
+			}
+		}
+		return legends;
+	}
+	
+	private List<String> getGdpXAxises(List<GrossDomesticProductCurrentPricesEntity> entities) {
+		List<String> xAxises = new ArrayList<>();
+		String oldArea = entities.get(0).getId().getArea();
+		String newArea = null;
+		for(GrossDomesticProductCurrentPricesEntity entity : entities) {
+			newArea = entity.getId().getArea();
+			if(newArea.equals(oldArea) == false) {
+				break;
+			}
+			xAxises.add(entity.getId().getQuarter());
+		}
+		return xAxises;
+	}
+	
+	private List<List<BigDecimal>> getGdpData(List<GrossDomesticProductCurrentPricesEntity> entities) {
+		List<List<BigDecimal>> data = new ArrayList<>();
+		String oldArea = entities.get(0).getId().getArea();
+		String newArea = null;
+		List<BigDecimal> values = new ArrayList<>();
+		for(GrossDomesticProductCurrentPricesEntity entity : entities) {
+			newArea = entity.getId().getArea();
+			if(newArea.equals(oldArea) == false) {
+				values = new ArrayList<>();
+				data.add(values);
+				oldArea = newArea;
+			}
+			values.add(entity.getValue());
+		}
+		return data;
+	}
+	
+	private EconomyVo convertToExchangeRateEconomyVo(List<EuroNationalCurrencyExchangeRatesEntity> entities) {
+		List<String> legends = getExchangeRateLegends(entities);
+		List<String> xAxises = getExchangeRateXAxises(entities);
+		List<List<BigDecimal>> data = getExchangeRateData(entities);
+		return new EconomyVo(legends, xAxises, data);
+	}
+	
+	private List<String> getExchangeRateLegends(List<EuroNationalCurrencyExchangeRatesEntity> entities) {
+		List<String> legends = new ArrayList<>();
+		String oldCurrency = entities.get(0).getId().getCurrency();
+		legends.add(oldCurrency);
+		String newCurrency = null;
+		for(EuroNationalCurrencyExchangeRatesEntity entity : entities) {
+			newCurrency = entity.getId().getCurrency();
+			if(newCurrency.equals(oldCurrency) == false) {
+				legends.add(newCurrency);
+				oldCurrency = newCurrency;
+			}
+		}
+		return legends;
+	}
+	
+	private List<String> getExchangeRateXAxises(List<EuroNationalCurrencyExchangeRatesEntity> entities) {
+		List<String> xAxises = new ArrayList<>();
+		String oldCurrency = entities.get(0).getId().getCurrency();
+		String newCurrency = null;
+		for(EuroNationalCurrencyExchangeRatesEntity entity : entities) {
+			newCurrency = entity.getId().getCurrency();
+			if(newCurrency.equals(oldCurrency) == false) {
+				break;
+			}
+			xAxises.add(entity.getId().getYearMonth());
+		}
+		return xAxises;
+	}
+	
+	private List<List<BigDecimal>> getExchangeRateData(List<EuroNationalCurrencyExchangeRatesEntity> entities) {
+		List<List<BigDecimal>> data = new ArrayList<>();
+		String oldCurrency = entities.get(0).getId().getCurrency();
+		String newCurrency = null;
+		List<BigDecimal> values = new ArrayList<>();
+		for(EuroNationalCurrencyExchangeRatesEntity entity : entities) {
+			newCurrency = entity.getId().getCurrency();
+			if(newCurrency.equals(oldCurrency) == false) {
+				values = new ArrayList<>();
+				data.add(values);
+				oldCurrency = newCurrency;
+			}
+			values.add(entity.getValue());
+		}
+		return data;
 	}
 }

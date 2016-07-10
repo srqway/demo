@@ -29,4 +29,9 @@ public class DataService implements InitializingBean {
 		final String url = webServiceHost + "news?term=" + term + "&start=" + (start == null ? 0 : start);
 		return UrlUtility.getContent(url);
 	}
+
+	public String getEconomyData(String type) throws IOException {
+		final String url = webServiceHost + "economy/" + type;
+		return UrlUtility.getContent(url);
+	}
 }
