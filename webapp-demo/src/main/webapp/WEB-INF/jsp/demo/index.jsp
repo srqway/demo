@@ -11,8 +11,6 @@
 	href='<c:url value="/javascript/bootstrap-3.3.2-dist/css/bootstrap.min.css"></c:url>'>
 <link rel="stylesheet"
 	href='<c:url value="/javascript/bootstrap-3.3.2-dist/css/bootstrap-theme.min.css"></c:url>'>
-<link rel="stylesheet"
-	href='<c:url value="/javascript/Font-Awesome-master/css/font-awesome.min.css"></c:url>'>
 <script
 	src='<c:url value="/javascript/jquery-2.1.4/jquery-2.1.4.min.js"></c:url>'></script>
 <script
@@ -27,7 +25,14 @@
 			<input type="radio" name="radio" value="exchange_rate"> <span class="label label-warning">Exchange Rate (歐元對其他貨幣)</span>
 		</div>
 		<div class="panel-body danger">
-			<span class="text-danger">說明 ： 取得經濟數據資料</span>
+			<span class="text-danger">
+				說明 ： 取得網路open data經濟數據資料<br>
+				後台使用技術 : crawler, jpa, postgresql<br>
+				完整程式碼 : <br>
+				<a href="https://github.com/hsiehpinghan/demo/tree/master/crawler-demo" target="_blank">https://github.com/hsiehpinghan/demo/tree/master/crawler-demo</a><br>
+				<a href="https://github.com/hsiehpinghan/demo/tree/master/jpa-demo" target="_blank">https://github.com/hsiehpinghan/demo/tree/master/jpa-demo</a><br>
+				<a href="https://github.com/hsiehpinghan/demo/tree/master/jersey-demo" target="_blank">https://github.com/hsiehpinghan/demo/tree/master/jersey-demo</a>
+			</span>
 		</div>
 		<div id="main" style="height: 400px"></div>
 	</div>
@@ -47,7 +52,13 @@
 				</div>
 			</div>
 			<div class="panel-body danger">
-				<span class="text-danger">說明 ： 取得包含某特定關鍵字新聞</span>
+				<span class="text-danger">
+					說明 ： 取得包含某特定關鍵字新聞<br>
+					後台使用技術 : nutch, solr, mongodb<br>
+					完整程式碼 : <br>
+					<a href="https://github.com/hsiehpinghan/demo/tree/master/nutch-demo" target="_blank">https://github.com/hsiehpinghan/demo/tree/master/nutch-demo</a><br>
+					<a href="https://github.com/hsiehpinghan/demo/tree/master/jersey-demo" target="_blank">https://github.com/hsiehpinghan/demo/tree/master/jersey-demo</a>
+				</span>
 			</div>
 			<table class="table table-striped table-bordered table-hover">
 				<thead>
@@ -159,7 +170,12 @@
 				</div>
 			</div>
 			<div class="panel-body danger">
-				<span class="text-danger">說明 ： 取得某位政要的即時臉書貼文</span>
+				<span class="text-danger">
+					說明 ： 取得某位政要的即時臉書貼文<br>
+					後台使用技術 : facebook graph api<br>
+					完整程式碼 : <br>
+					<a href="https://github.com/hsiehpinghan/demo/tree/master/jersey-demo" target="_blank">https://github.com/hsiehpinghan/demo/tree/master/jersey-demo</a>
+				</span>
 			</div>
 			<table class="table table-striped table-bordered table-hover">
 				<thead>

@@ -11,8 +11,6 @@
 	href='<c:url value="/javascript/bootstrap-3.3.2-dist/css/bootstrap.min.css"></c:url>'>
 <link rel="stylesheet"
 	href='<c:url value="/javascript/bootstrap-3.3.2-dist/css/bootstrap-theme.min.css"></c:url>'>
-<link rel="stylesheet"
-	href='<c:url value="/javascript/Font-Awesome-master/css/font-awesome.min.css"></c:url>'>
 <script
 	src='<c:url value="/javascript/jquery-2.1.4/jquery-2.1.4.min.js"></c:url>'></script>
 <script

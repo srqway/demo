@@ -23,7 +23,7 @@ public class NewsService {
 		if (term == null) {
 			query.setQuery("*:*");
 		} else {
-			query.setQuery("title:" + term + " or content:" + term);
+			query.setQuery("content:" + term);
 		}
 		query.setFields("id", "title", "url");
 		query.setStart(start);
